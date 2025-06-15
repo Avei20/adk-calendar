@@ -29,9 +29,14 @@ services:
       - 4137:4137
 
   prometheus:
+    hostname: prom
     image: prom/prometheus:latest
     ports:
       - 9090:9090
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - otel-collector
 
   grafana:
     image: grafana/grafana:latest

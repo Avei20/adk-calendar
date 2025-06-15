@@ -3,8 +3,15 @@ import openlit
 import os
 from google.adk.cli.fast_api import get_fast_api_app
 from google.adk.sessions import DatabaseSessionService
+from google.adk.telemetry import tracer
 
-openlit.init(otlp_endpoint="http://otel-collector:4318")
+openlit.init(
+    otlp_endpoint="http://otel-collector:4318",
+    # tracer=tracer,
+    application_name="calendar_agent",
+    disable_batch=True,
+    environment="development",
+)
 
 # DB_URL = "postgresql://postgres:postgres@db:5432/adk"
 # session_service = DatabaseSessionService(db_url=DB_URL)
