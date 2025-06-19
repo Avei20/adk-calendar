@@ -1,6 +1,10 @@
 from google.adk.agents import LlmAgent
 from . import prompt
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
+from google.adk.tools.mcp_tool.mcp_toolset import (
+    MCPToolset,
+    StdioServerParameters,
+    StdioConnectionParams,
+)
 from calendar_agent.context import use_context
 
 agenda_task_agent = LlmAgent(
@@ -10,18 +14,14 @@ agenda_task_agent = LlmAgent(
     instruction=prompt.PROMPT,
     tools=[
         MCPToolset(
-            connection_params=StdioServerParameters(
-                command="npx",
-                args=["@cocal/google-calendar-mcp"],
-                env={
-                    "GOOGLE_OAUTH_CREDENTIALS": "/home/avei/GithubRepo/playground/calendar-agent/key.json"
-                },
-            ),
-            tool_filter=[
-                "calendar_create_event",
-                "calendar_delete_event",
-                "calendar_get_events",
-            ],
+            connection_params=StdioConnectionParams(
+                server_params=StdioServerParameters(
+                    command="npx",
+                    args=["-y", "@cocal/google-calendar-mcp"],
+                    env={"GOOGLE_OAUTH_CREDENTIALS": "/app/key.json"},
+                )
+            )
+            # tool_filter=["calendar_list_accounts"],
         ),
         use_context,
     ],

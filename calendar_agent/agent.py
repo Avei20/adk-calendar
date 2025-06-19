@@ -5,7 +5,11 @@ from typing import Literal, Dict
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
 from google.adk.agents import LlmAgent
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
+from google.adk.tools.mcp_tool.mcp_toolset import (
+    MCPToolset,
+    StdioConnectionParams,
+    StdioServerParameters,
+)
 from . import prompt
 from .sub_agent.agenda_task.agent import agenda_task_agent
 from .sub_agent.event.agent import event_agent
@@ -101,16 +105,16 @@ root_agent = LlmAgent(
         agenda_discussion_agent,
     ],
     tools=[
-        # MCPToolset(
-        #     # connection_params=StdioServerParameters(
-        #     #     command="npx",
-        #     #     args=["@cocal/google-calendar-mcp"],
-        #     #     env={
-        #     #         "GOOGLE_OAUTH_CREDENTIALS": "/home/avei/GithubRepo/playground/calendar-agent/key.json"
-        #     #     },
-        #     # ),
-        #     tool_filter=["calendar_list_accounts"],
-        # ),
+        MCPToolset(
+            connection_params=StdioConnectionParams(
+                server_params=StdioServerParameters(
+                    command="npx",
+                    args=["-y", "@cocal/google-calendar-mcp"],
+                    env={"GOOGLE_OAUTH_CREDENTIALS": "/app/key.json"},
+                )
+            )
+            # tool_filter=["calendar_list_accounts"],
+        ),
         now,
         context.inject_context,
     ],

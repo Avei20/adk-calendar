@@ -19,6 +19,7 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /app
