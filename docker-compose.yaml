@@ -1,18 +1,18 @@
 services:
-  adk:
-    build: .
-    command: python3 main.pyc
-    environment:
-      GOOGLE_GENAI_USE_VERTEXAI: false
-      GOOGLE_API_KEY: ${GEMINI_API_KEY}
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4317"
-    ports:
-      - 8080:8080
-    develop:
-      watch:
-        - path: .
-          action: rebuild
-          target: /app
+  # adk:
+  #   build: .
+  #   command: python3 main.pyc
+  #   environment:
+  #     GOOGLE_GENAI_USE_VERTEXAI: false
+  #     GOOGLE_API_KEY: ${GEMINI_API_KEY}
+  #     OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4317"
+  #   ports:
+  #     - 8080:8080
+  #   develop:
+  #     watch:
+  #       - path: .
+  #         action: rebuild
+  #         target: /app
 
   db:
     image: postgres:latest

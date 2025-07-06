@@ -5,13 +5,13 @@ from google.adk.cli.fast_api import get_fast_api_app
 from google.adk.sessions import DatabaseSessionService
 
 openlit.init(
-    otlp_endpoint="http://otel-collector:4318",
+    otlp_endpoint=os.getenv("otel-collector", "http://localhost:4318"),
     application_name="calendar_agent",
     disable_batch=True,
     environment="development",
 )
 
-DB_URL = "postgresql://postgres:postgres@db:5432/adk"
+DB_URL = "postgresql://postgres:postgres@localhost:5432/adk"
 # session_service = DatabaseSessionService(db_url=DB_URL)
 
 app = get_fast_api_app(
@@ -22,4 +22,4 @@ app = get_fast_api_app(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=os.getenv("PORT", 8080))
