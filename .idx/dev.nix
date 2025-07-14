@@ -17,6 +17,10 @@
   # Sets environment variables in the workspace
   env = {
     PORT = "8080";
+    GEMINI_API_KEY="";
+    USE_VERTEX = "false";
+    GOOGLE_APPLICATION_CREDENTIALS="/home/user/adk-calendar/key.json";
+    GOOGLE_CALENDAR_ID="";
   };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
@@ -48,7 +52,7 @@
         # install-uv = "pip instal uv";
         # Example: install JS dependencies from NPM
         # npm-install = "npm install";
-        uv-install = "uv install";
+        uv-install = "uv sync";
       };
       # Runs when the workspace is (re)started
       onStart = {
@@ -61,5 +65,8 @@
   };
   services = {
     docker.enable = true;
+    postgres = {
+      enable = true;
+    };
   };
 }
