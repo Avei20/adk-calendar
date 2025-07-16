@@ -1,5 +1,5 @@
 import uvicorn
-# import openlit
+import openlit
 import os
 from google.adk.cli.fast_api import get_fast_api_app
 
@@ -28,4 +28,9 @@ except Exception as e:
     )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=os.getenv("PORT", 8080))
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 8080)),
+        reload=True,
+    )
