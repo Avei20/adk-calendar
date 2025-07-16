@@ -9,7 +9,7 @@ root_agent = LlmAgent(
     instruction=prompt.PROMPT,
     tools=[
         MCPServers.CalendarInternal,
-        MCPServers.Time,
-        MCPServers.DateTime,
+        # MCPServers.Time,
+        # MCPServers.DateTime,
     ]
 )
