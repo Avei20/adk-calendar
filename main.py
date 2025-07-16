@@ -34,10 +34,12 @@ except:
         web=True,
     )
 
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
+
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=int(os.getenv("PORT", 8080)),
-        reload=True,
+        reload=False if ENVIRONMENT != "dev" else True,
     )
