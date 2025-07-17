@@ -8,8 +8,8 @@ root_agent = LlmAgent(
     description="Agent who can arrange the time management centralized on Google Calendar",
     instruction=prompt.PROMPT,
     tools=[
-        MCPServers.CalendarInternal,
+        # MCPServers.CalendarInternal,
         # MCPServers.Time,
-        # MCPServers.DateTime,
+        MCPServers.DateTime,
     ]
 )

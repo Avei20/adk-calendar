@@ -1,55 +1,57 @@
 services:
-  # adk:
-  #   build: .
-  #   command: python3 main.pyc
-  #   environment:
-  #     GOOGLE_GENAI_USE_VERTEXAI: false
-  #     GOOGLE_API_KEY: ${GEMINI_API_KEY}
-  #     OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4317"
-  #   ports:
-  #     - 8080:8080
-  #   develop:
-  #     watch:
-  #       - path: .
-  #         action: rebuild
-  #         target: /app
-
-  db:
-    image: postgres:latest
-    ports:
-      - 5432:5432
+  adk:
+    build: .
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: adk
-
-  jaeger:
-    image: jaegertracing/all-in-one:latest
+      GOOGLE_GENAI_USE_VERTEXAI: false
+      GOOGLE_API_KEY: ${GEMINI_API_KEY}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      ENVIRONMENT: "dev"
+      # OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4317"
     ports:
-      - 16686:16686
-      - 4138:4138
-      - 4137:4137
+      - 8080:8080
+    develop:
+      watch:
+        - path: .
+          action: rebuild
+          target: /app
 
-  prometheus:
-    hostname: prom
-    image: prom/prometheus:latest
-    ports:
-      - 9090:9090
-    volumes:
-      - ./instrumentation/prometheus.yaml:/etc/prometheus/prometheus.yml
-    depends_on:
-      - otel-collector
+  # db:
+  #   image: postgres:latest
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: adk
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - 3000:3000
+  # jaeger:
+  #   image: jaegertracing/all-in-one:latest
+  #   ports:
+  #     - 16686:16686
+  #     - 4138:4138
+  #     - 4137:4137
 
-  otel-collector:
-    image: otel/opentelemetry-collector-contrib:latest
-    ports:
-      - 4317:4317
-      - 4318:4318
-    volumes:
-      - ./instrumentation/otel-config.yaml:/etc/otel/config.yaml
-    command: ["--config=/etc/otel/config.yaml"]
+  # prometheus:
+  #   hostname: prom
+  #   image: prom/prometheus:latest
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - ./instrumentation/prometheus.yaml:/etc/prometheus/prometheus.yml
+  #   depends_on:
+  #     - otel-collector
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   ports:
+  #     - 3000:3000
+
+  # otel-collector:
+  #   image: otel/opentelemetry-collector-contrib:latest
+  #   ports:
+  #     - 4317:4317
+  #     - 4318:4318
+  #   volumes:
+  #     - ./instrumentation/otel-config.yaml:/etc/otel/config.yaml
+  #   command: ["--config=/etc/otel/config.yaml"]
