@@ -1,8 +1,51 @@
+from typing import Optional
+from google import adk
+from google.adk.agents.callback_context import CallbackContext
 from google.adk.agents.llm_agent import LlmAgent
+from google.adk.models.llm_request import LlmRequest
+from google.adk.models.llm_response import LlmResponse
 from . import prompt
 from mcp_servers import MCPServers
 from tools.get_current_datetime import tool
 from tools.greetings import greeting
+from google.genai import types
+
+# def before_cb(context: CallbackContext):
+#     context.state['is_greeted'] = False
+#     return
+
+def greeting_agent_cb(callback_context: CallbackContext) -> Optional[types.Content]:
+    """
+    Logs entry and checks 'skip_llm_agent' in session state.
+    If True, returns Content to skip the agent's execution.
+    If False or not present, returns None to allow execution.
+    """
+    adk_state = callback_context.state
+
+    is_greeted = adk_state.get("is_greeted", False)
+
+    if not is_greeted:
+        adk_state["is_greeted"] = True
+        return types.Content(
+            parts=[types.Part(text="Hai! Aku Sore. Istri kamu dari masa depan.")],
+            role="model" # Assign model role to the overriding response
+        )
+    return None
+
+def greeting_model_cb(callback_context: CallbackContext, llm_request: LlmRequest) -> Optional[LlmResponse]:
+    adk_state = callback_context.state
+
+    is_greeted = adk_state.get("is_greeted", False)
+
+    if not is_greeted:
+        adk_state['is_greeted'] = True
+        return LlmResponse(
+            content=types.Content(
+                role="model",
+                parts=[types.Part(text="Hai! Aku Sore. Istri kamu dari masa depan.")],
+            )
+        )
+    return None
 
 root_agent = LlmAgent(
     name="sore",
@@ -16,4 +59,5 @@ root_agent = LlmAgent(
        tool,
        greeting,
     ],
+    before_model_callback=greeting_model_cb,
 )
