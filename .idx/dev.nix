@@ -19,6 +19,8 @@
     PORT = "8080";
     GEMINI_API_KEY="";
     USE_VERTEX = "false";
+    CLIENT_ID="";
+    CLIENT_SECRET="";
     GOOGLE_OAUTH_CREDENTIALS="/home/user/adk-calendar/key.json";
     GOOGLE_CALENDAR_MCP_TOKEN_PATH="/home/user/adk-calendar/token.json";
   };
@@ -59,7 +61,7 @@
         # Example: start a background task to watch and re-build backend code
         # watch-backend = "npm run watch-backend";
         run-docker = "docker compose up -d";
-        run-mcp = "npx -y @cocal/google-calendar-mcp";
+        # run-mcp = "npx -y @cocal/google-calendar-mcp";
         # run-adk = "uv run main.py";
       };
     };
