@@ -10,6 +10,8 @@ from google.adk.tools.mcp_tool.mcp_toolset import (
     StdioConnectionParams,
     StdioServerParameters,
 )
+
+from mcp_servers import MCPServers
 from . import prompt
 from .sub_agent.agenda_task.agent import agenda_task_agent
 from .sub_agent.event.agent import event_agent
@@ -104,19 +106,6 @@ root_agent = LlmAgent(
         event_agent,
         agenda_discussion_agent,
     ],
-    tools=[
-        MCPToolset(
-            connection_params=StdioConnectionParams(
-                server_params=StdioServerParameters(
-                    command="npx",
-                    args=["-y", "@cocal/google-calendar-mcp"],
-                    env={"GOOGLE_OAUTH_CREDENTIALS": "/app/key.json"},
-                )
-            )
-            # tool_filter=["calendar_list_accounts"],
-        ),
-        now,
-        context.inject_context,
-    ],
+    tools=[],
     before_agent_callback=session_init_callback,
 )

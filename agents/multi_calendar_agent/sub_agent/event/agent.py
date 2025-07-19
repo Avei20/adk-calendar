@@ -1,6 +1,6 @@
 from google.adk.agents import LlmAgent
 from . import prompt
-from calendar_agent.context import use_context
+from multi_calendar_agent.context import use_context
 
 from google.adk.tools.mcp_tool.mcp_toolset import (
     MCPToolset,

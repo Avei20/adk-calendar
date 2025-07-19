@@ -1,6 +1,7 @@
+from mcp_servers.calendar_built_in import get_calendar_filter
 from google.adk.agents import LlmAgent
 from . import prompt
-from calendar_agent.context import use_context
+from multi_calendar_agent.context import use_context
 
 from google.adk.tools.mcp_tool.mcp_toolset import (
     MCPToolset,
@@ -14,16 +15,9 @@ agenda_discussion_agent = LlmAgent(
     description="",
     instruction=prompt.PROMPT,
     tools=[
-        MCPToolset(
-            connection_params=StdioConnectionParams(
-                server_params=StdioServerParameters(
-                    command="npx",
-                    args=["-y", "@cocal/google-calendar-mcp"],
-                    env={"GOOGLE_OAUTH_CREDENTIALS": "/app/key.json"},
-                )
-            )
+        get_calendar_filter(['']),
             # tool_filter=["calendar_list_accounts"],
-        ),
+        # ),
         use_context,
     ],
 )

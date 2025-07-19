@@ -1,13 +1,9 @@
-import datetime
-import time
-
 from typing import Optional
-from google import adk
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.agents.llm_agent import LlmAgent
 from google.adk.models.llm_request import LlmRequest
 from google.adk.models.llm_response import LlmResponse
-from . import prompt
+from sore import prompt
 from mcp_servers import MCPServers
 from tools.get_current_datetime import tool
 from tools.greetings import greeting
@@ -40,45 +36,48 @@ def greeting_model_cb(callback_context: CallbackContext, llm_request: LlmRequest
 
     is_greeted = adk_state.get("is_greeted", False)
 
-    utc_now = datetime.datetime.utcnow()
+    if not is_greeted:
+        adk_state['is_greeted'] = True
+        return LlmResponse(
+            content=types.Content(
+                role="model",
+                parts=[
+                    types.Part(
+                        text="Hai! Aku Sore. Istri kamu dari masa depan."
+                    )
+                ],
+            )
+        )
+    return None
 
-    # Calculate the UTC+7 offset in seconds (7 hours * 60 minutes * 60 seconds)
-    utc_offset_seconds = 7 * 60 * 60
+def greeting_model_audio_cb(
+    callback_context: CallbackContext,
+    llm_request: LlmRequest
+) -> Optional[LlmResponse]:
+    with open('audio/sore_real.wav', "rb") as f:
+        audio_bytes = f.read()
 
-    # Create a timedelta object for the offset
-    utc_offset = datetime.timedelta(seconds=utc_offset_seconds)
+    adk_state = callback_context.state
 
-    # Calculate the Asia/Jakarta time
-    jakarta_now = utc_now + utc_offset
-
-    # Format the datetime in different standards
-    iso_format = jakarta_now.isoformat()
-    rfc_format = jakarta_now.strftime("%a, %d %b %Y %H:%M:%S +0700")  # RFC 2822 format, adjusting timezone offset manually
-    timestamp = time.mktime(jakarta_now.timetuple())
-
-    result = {
-        "iso": iso_format,
-        "rfc": rfc_format,
-        "timestamp": timestamp,
-        "datetime": jakarta_now,
-        "timezone": "Asia/Jakarta",
-    }
-
-    adk_state['current_datetime'] = result
+    is_greeted = adk_state.get("is_greeted", False)
 
     if not is_greeted:
         adk_state['is_greeted'] = True
         return LlmResponse(
             content=types.Content(
                 role="model",
-                parts=[types.Part(text="Hai! Aku Sore. Istri kamu dari masa depan.")],
+                parts=[
+                    types.Part.from_bytes(data=audio_bytes, mime_type="audio/wav"),
+                ]
             )
         )
     return None
 
+
+
 root_agent = LlmAgent(
-    name="sore",
-    model="gemini-2.0-flash-lite",
+    name="sore_audio",
+    model="gemini-2.5-flash-preview-tts",
     description="Agent who can arrange the time management centralized on Google Calendar",
     instruction=prompt.PROMPT,
     tools=[
@@ -88,5 +87,5 @@ root_agent = LlmAgent(
        tool,
        greeting,
     ],
-    before_model_callback=greeting_model_cb,
+    before_model_callback=greeting_model_audio_cb,
 )

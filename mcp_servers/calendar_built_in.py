@@ -12,3 +12,12 @@ mcp = OpenAPIToolset(
     auth_scheme=Auth.Scheme,
     auth_credential=Auth.Credential,
 )
+
+def get_calendar_filter(filter_tool:list[str]) -> OpenAPIToolset:
+    return OpenAPIToolset(
+        spec_str=spec_content,
+        spec_str_type="yaml",
+        auth_scheme=Auth.Scheme,
+        auth_credential=Auth.Credential,
+        tool_filter=filter_tool,
+    )

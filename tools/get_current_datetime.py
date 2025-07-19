@@ -1,7 +1,9 @@
 import datetime
 import time
 
-def tool()-> dict:
+from google.adk.tools import ToolContext
+
+def tool(tool_context:ToolContext)-> dict:
     """
     Returns the current date and time in Asia/Jakarta timezone (UTC+7)
     without using the pytz library, and returns the datetime in dict format.
@@ -9,6 +11,7 @@ def tool()-> dict:
     Returns:
         dict: A dictionary containing the datetime in various formats.
     """
+    adk_state = tool_context.state
     # Get the current UTC time
     utc_now = datetime.datetime.utcnow()
 
@@ -33,5 +36,7 @@ def tool()-> dict:
         "datetime": jakarta_now,
         "timezone": "Asia/Jakarta",
     }
+
+    adk_state['current_datetime'] = result
 
     return result

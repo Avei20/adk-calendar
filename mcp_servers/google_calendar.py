@@ -1,6 +1,4 @@
-import os
 
-from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import (
     MCPToolset,
 )
