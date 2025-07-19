@@ -8,9 +8,7 @@ from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 from mcp.client.stdio import StdioServerParameters
 from agents.multi_calendar_agent import prompt
-from mcp_servers import MCPServers
 from tools.get_current_datetime import tool
-from test.typinganndata.ann_module695 import Eggs
 # from tools.greetings import greeting
 
 def before_cb(callback_context: CallbackContext):

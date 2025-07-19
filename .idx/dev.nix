@@ -19,8 +19,8 @@
     PORT = "8080";
     GEMINI_API_KEY="";
     USE_VERTEX = "false";
-    GOOGLE_APPLICATION_CREDENTIALS="/home/user/adk-calendar/key.json";
-    GOOGLE_CALENDAR_ID="";
+    GOOGLE_OAUTH_CREDENTIALS="/home/user/adk-calendar/key.json";
+    GOOGLE_CALENDAR_MCP_TOKEN_PATH="/home/user/adk-calendar/token.json";
   };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
