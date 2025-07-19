@@ -1,4 +1,5 @@
 import datetime
+import os
 import time
 
 from google.adk.agents.callback_context import CallbackContext
@@ -9,6 +10,7 @@ from mcp.client.stdio import StdioServerParameters
 from agents.multi_calendar_agent import prompt
 from mcp_servers import MCPServers
 from tools.get_current_datetime import tool
+from test.typinganndata.ann_module695 import Eggs
 # from tools.greetings import greeting
 
 def before_cb(callback_context: CallbackContext):
@@ -43,6 +45,9 @@ def before_cb(callback_context: CallbackContext):
 
     return
 
+OAUthJonPath = os.getenv("GOOGLE_OAUTH_CREDENTIALS", "/Users/avei/GithubRepo/playground/adk-calendar/key.json")
+TokenPath = os.getenv("GOOGLE_CALENDAR_MCP_TOKEN_PATH", "/Users/avei/GithubRepo/playground/adk-calendar/token.json")
+
 root_agent = LlmAgent(
     name="calendar_agent",
     model="gemini-2.5-flash",
@@ -55,7 +60,8 @@ root_agent = LlmAgent(
                     command="npx",
                     args=["-y", "@cocal/google-calendar-mcp"],
                     env={
-                        "GOOGLE_OAUTH_CREDENTIALS": "/Users/avei/GithubRepo/playground/adk-calendar/key.json",
+                        "GOOGLE_OAUTH_CREDENTIALS":OAUthJonPath,
+                        "GOOGLE_CALENDAR_MCP_TOKEN_PATH": TokenPath
                     }
                 )
             )
