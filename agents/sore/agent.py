@@ -78,7 +78,7 @@ def greeting_model_cb(callback_context: CallbackContext, llm_request: LlmRequest
 
 root_agent = LlmAgent(
     name="sore",
-    model="gemini-2.0-flash-lite",
+    model="gemini-2.5-pro",
     description="Agent who can arrange the time management centralized on Google Calendar",
     instruction=prompt.PROMPT,
     tools=[

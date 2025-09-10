@@ -8,6 +8,7 @@ dependencies = [
     "google-adk==1.6.1",
     "mcp-datetime>=0.1.4",
     "openlit==1.34.26",
+    "paper-search-mcp>=0.1.3",
     "psycopg2-binary>=2.9.10",
     "pytz>=2025.2",
     "uvicorn>=0.34.3",

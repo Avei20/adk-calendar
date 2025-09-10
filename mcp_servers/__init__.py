@@ -5,6 +5,7 @@ from . import time
 from . import mcp_calendar_remote
 from . import datetime
 from . import calendar_built_in
+from . import paper_mcp_server
 
 class MCPServers:
     MCPCalendarRemote = mcp_calendar_remote.mcp
@@ -14,3 +15,4 @@ class MCPServers:
     GoogleCalendar = google_calendar.mcp
     Time = time.mcp
     DateTime = datetime.mcp
+    PaperSearchMCP = paper_mcp_server.mcp
