@@ -13,7 +13,7 @@ from . import prompt
 
 root_agent = LlmAgent(
     name="aws_caption_agent",
-    model="gemini-2.5-flash",
+    model="gemini-2.5-flasgemini-3-pro-preview",
     description="Agent for generation caption for social media posting for AWS User Group Indonesia and Jakarta",
     instruction=prompt.PROMPT,
 )
